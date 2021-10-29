@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-from pdfminer.layout import LTTextBoxHorizontal
 
 from billreader import Bill
 

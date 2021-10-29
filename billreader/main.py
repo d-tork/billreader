@@ -1,6 +1,5 @@
 from os import path
 import json
-from pdfminer.high_level import extract_text, extract_pages
 
 from billreader import PROJ_PATH
 from billreader.power import DominionEnergyBill
