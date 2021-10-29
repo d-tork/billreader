@@ -1,4 +1,4 @@
-from pdfminer.high_level import extract_pages
+from pdfminer.high_level import extract_pages, extract_text
 
 
 class Bill(object):
@@ -22,6 +22,14 @@ class Bill(object):
         """Break down page elements, pages indexed starting at 1."""
         elements = [x for x in self.pages[page_num - 1]]
         return elements
+
+    def _get_text_from_page(self) -> str:
+        """Get full text from PDF.
+
+        Use when elements can't be parsed.
+        """
+        full_text = extract_text(self.filepath)
+        return full_text
 
     @staticmethod
     def _get_raw_bill_element(page, element_num: int) -> str:

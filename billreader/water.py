@@ -4,13 +4,14 @@ from datetime import datetime
 from billreader import Bill
 
 
-class DominionEnergyBill(Bill):
-    provider = 'Dominion Energy'
-    date_input_format = '%b %d, %Y'
+class FairfaxWater(Bill):
+    provider = 'Fairfax Water'
+    date_input_format = '%m/%d/%y'
     date_output_format = '%Y-%m-%d'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.raw_bill_text = self._get_text_from_page()
 
     def parse_bill(self) -> dict:
         """Collect all relevant bill elements in a dictionary."""
@@ -24,10 +25,8 @@ class DominionEnergyBill(Bill):
 
     def _get_bill_date(self) -> str:
         """Get date bill was issued."""
-        bill_date_element_page = 1
-        bill_date_element_number = 0
-        raw_bill_date = self.get_specific_element_from_page(
-            element_num=bill_date_element_number, page_num=bill_date_element_page)
+        bill_date_pattern = r'BillingDate(\d{2}\/\d{2}\/\d{2})'
+        raw_bill_date = self._extract_pattern_from_full_text(patt=bill_date_pattern)
         bill_date = self._clean_bill_date(raw_bill_date=raw_bill_date)
         formatted_bill_date = bill_date.strftime(self.date_output_format)
         return formatted_bill_date
@@ -40,14 +39,25 @@ class DominionEnergyBill(Bill):
 
     def _get_bill_amount(self) -> str:
         """Get total bill amount."""
-        bill_amt_element_page = 1
-        bill_amt_element_number = 18
-        raw_bill_amt = self.get_specific_element_from_page(
-            element_num=bill_amt_element_number, page_num=bill_amt_element_page)
+        bill_amt_pattern = r'TotalAmountDue\$(\d+\.\d{2})'
+        raw_bill_amt = self._extract_pattern_from_full_text(patt=bill_amt_pattern)
         bill_amt_cents = self._clean_bill_amount(raw_bill_amt=raw_bill_amt)
         bill_amt_usd = bill_amt_cents / 100
         bill_amt_formatted = f'{bill_amt_usd:.2f}'
         return bill_amt_formatted
+
+    def _extract_pattern_from_full_text(self, patt: str) -> str:
+        """Get a heading-value pair from the raw text string.
+
+        Args:
+            patt: Raw regex pattern to match both title and value, with one capture group.
+        """
+        match = re.search(patt, self.raw_bill_text)
+        if match:
+            raw_value = match.group(1)
+        else:
+            raise ValueError('Total amount could not be parsed from full text.')
+        return raw_value
 
     @staticmethod
     def _clean_bill_amount(raw_bill_amt: str) -> int:
@@ -60,13 +70,9 @@ class DominionEnergyBill(Bill):
 
     def _get_bill_due_date(self) -> str:
         """Get date bill is due."""
-        bill_duedate_element_num = 13
-        due_date_raw = self.get_specific_element_from_page(element_num=13)
-        try:
-            due_date_parsed = self._parse_date_from_field(due_date_raw)
-        except ValueError:
-            raise ValueError(f'Date pattern not found in field {bill_duedate_element_num}')
-        due_date = self._clean_bill_date(raw_bill_date=due_date_parsed)
+        due_date_pattern = r'DueDate(\d{2}\/\d{2}\/\d{2})'
+        raw_due_date = self._extract_pattern_from_full_text(patt=due_date_pattern)
+        due_date = self._clean_bill_date(raw_bill_date=raw_due_date)
         formatted_due_date = due_date.strftime(self.date_output_format)
         return formatted_due_date
 
