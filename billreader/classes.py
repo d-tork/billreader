@@ -42,3 +42,24 @@ class Bill(object):
 
     def parse_bill(self):
         raise NotImplementedError('Should be defined in child class.')
+
+
+class FileChecker(object):
+    """Determines what kind of utility bill was passed as a PDF."""
+    def __init__(self, filepath):
+        self.filepath = filepath
+
+    def determine_utility_provider(self) -> str:
+        """Scan the contents to choose which parser to use.
+
+        Returns:
+            'fairfax_water' or 'dominion_energy'
+        """
+        bill = Bill(filepath=self.filepath)
+        full_pdf_text = bill._get_text_from_page().lower()
+        if 'fairfaxwater' in full_pdf_text:
+            return 'fairfax_water'
+        elif 'dominion' in full_pdf_text:
+            return 'dominion_energy'
+        else:
+            raise ValueError('No relevant keywords detected in PDF.')

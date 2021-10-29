@@ -4,7 +4,7 @@ from datetime import datetime
 from billreader import Bill
 
 
-class FairfaxWater(Bill):
+class FairfaxWaterBill(Bill):
     provider = 'Fairfax Water'
     date_input_format = '%m/%d/%y'
     date_output_format = '%Y-%m-%d'
