@@ -1,0 +1,10 @@
+.DS_Store
+.git/
+.gitignore
+.idea/
+.vscode/
+*.egg-info/
+build/
+output.json
+venv/
+watch_folder/

@@ -1,5 +1,3 @@
-# Editable Git install with no remote (billreader==0.1.0)
--e /Users/dtork/Documents/Python/bill-pdfs
 cffi==1.15.0
 chardet==4.0.0
 cryptography==35.0.0

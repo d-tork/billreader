@@ -1,8 +1,7 @@
 import json
-from os import path
 import argparse
 
-from billreader import PROJ_PATH, FileChecker
+from billreader import FileChecker
 from billreader.power import DominionEnergyBill
 from billreader.water import FairfaxWaterBill
 
@@ -34,16 +33,6 @@ def add_to_output(output_path: str, data: dict):
     with open(output_path, 'a') as f:
         f.write('\n')
         json.dump(data, f)
-
-
-def sample():
-    sample_path_power = path.join(PROJ_PATH, 'samples', 'power_2021-10-07.pdf')
-    dominion_bill = DominionEnergyBill(filepath=sample_path_power).parse_bill()
-    print(json.dumps(dominion_bill, indent=2))
-
-    sample_path_water = path.join(PROJ_PATH, 'samples', 'water_2021-09-07.pdf')
-    fairfax_bill = FairfaxWaterBill(filepath=sample_path_water).parse_bill()
-    print(json.dumps(fairfax_bill, indent=2))
 
 
 if __name__ == '__main__':
