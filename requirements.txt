@@ -3,3 +3,4 @@ chardet==4.0.0
 cryptography==35.0.0
 pdfminer.six==20211012
 pycparser==2.20
+PyYAML==6.0

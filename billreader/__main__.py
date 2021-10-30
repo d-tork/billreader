@@ -1,9 +1,14 @@
 import json
 import argparse
+from os import path
 
-from billreader import FileChecker
+from billreader import FileChecker, log
 from billreader.power import DominionEnergyBill
 from billreader.water import FairfaxWaterBill
+
+
+config_yaml = path.join('/', 'bill-pdfs', 'logging.yml')
+logger = log.log_setup(config_yaml=config_yaml, logger_name='main')
 
 
 def parse_cli_args():
@@ -24,8 +29,14 @@ def main():
         bill = FairfaxWaterBill(filepath=args.filepath)
     else:
         raise ValueError(f'Provider name not valid: {provider}')
+
+    logger.info('Parsing bill')
     bill_data = bill.parse_bill()
+    logger.info('Bill parsing complete.')
+
+    logger.info('Writing to output file.')
     add_to_output(output_path='output.json', data=bill_data)
+    logger.info('Output file written.')
 
 
 def add_to_output(output_path: str, data: dict):
