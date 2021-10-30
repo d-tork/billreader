@@ -20,4 +20,7 @@ ENV GIT_HASH=${GIT_HASH:-dev}
 COPY . .
 RUN python -m pip install .
 
+RUN mkdir /common
 USER user
+
+ENTRYPOINT ["python", "billreader"]

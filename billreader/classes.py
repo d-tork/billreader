@@ -1,3 +1,4 @@
+from os import path
 import logging
 
 from pdfminer.high_level import extract_pages, extract_text
@@ -55,9 +56,26 @@ class Bill(object):
 
 class FileChecker(object):
     """Determines what kind of utility bill was passed as a PDF."""
-    def __init__(self, filepath):
+    def __init__(self, filepath: str, bind_path: str):
         self.logger = logging.getLogger(f'{__name__}.{type(self).__name__}')
-        self.filepath = filepath
+        self.filepath = self._create_internal_docker_path(
+            full_filepath=filepath, bind_path=bind_path)
+
+    @staticmethod
+    def _create_internal_docker_path(full_filepath: str, bind_path: str) -> str:
+        """Create the filepath that refers to the bind mount within the container.
+
+        macOS Automator will send a full macOS location (/Users/me/Documents/Utilities/...pdf)
+        but the container needs a path pointing to somewhere on its own filesystem, which
+        will be mounted via bind mount.
+
+        Args:
+            filepath: Full path to file on Docker host.
+            bind_path: Path to bind mount in Docker container.
+        """
+        filename = path.basename(full_filepath)
+        new_path = path.join(bind_path, filename)
+        return new_path
 
     def determine_utility_provider(self) -> str:
         """Scan the contents to choose which parser to use.
