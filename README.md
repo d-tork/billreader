@@ -18,9 +18,16 @@ $ docker run --rm billreader -h
 # displays help
 ```
 
-### Actual usage
+### Starting a shell in the container
+Since an entrypoint is defined, you must redefine it:
 ```bash
-$ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader /common/utilitybill.pdf
+$ docker run --rm -it --entrypoint=/bin/bash billreader
+```
+
+## Actual usage
+```bash
+$ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader utilitybill.pdf
+# where utilitybill.pdf exists in /path/to/inputs on Docker host
 ```
 
 ## Resources

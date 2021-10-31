@@ -18,10 +18,6 @@ loggers:
     level: DEBUG
     hanlders: [console]
     propagate: true
-  sample:
-    level: DEBUG
-    handlers: [console]
-    propagate: true
   classes:
     level: INFO
     handlers: [console]

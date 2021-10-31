@@ -7,4 +7,7 @@
 build/
 output.json
 venv/
-watch_folder/runner.sh
+watch_folder/
+runner.sh
+samples/
+output/

@@ -23,4 +23,4 @@ RUN python -m pip install .
 RUN mkdir /common
 USER user
 
-ENTRYPOINT ["python", "billreader"]
+ENTRYPOINT ["billreader"]
