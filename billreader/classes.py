@@ -94,4 +94,4 @@ class FileChecker(object):
             self.logger.info('Dominion Energy keyword found')
             return 'dominion_energy'
         else:
-            self.logger.exception('No relevant keywords detected in PDF')
+            raise ValueError('No relevant keywords detected in PDF')

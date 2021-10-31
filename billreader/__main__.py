@@ -15,14 +15,17 @@ def main():
     args = parse_cli_args()
     print(f'Filepath passed: {args.filepath}')
     file_checker = FileChecker(filepath=args.filepath, bind_path=BIND_MOUNT_DIR)
-    provider = file_checker.determine_utility_provider()
-
-    if provider == 'dominion_energy':
-        bill = DominionEnergyBill(filepath=file_checker.filepath)
-    elif provider == 'fairfax_water':
-        bill = FairfaxWaterBill(filepath=file_checker.filepath)
+    try:
+        provider = file_checker.determine_utility_provider()
+    except ValueError:
+        logger.exception()
     else:
-        raise ValueError(f'Provider name not valid: {provider}')
+        if provider == 'dominion_energy':
+            bill = DominionEnergyBill(filepath=file_checker.filepath)
+        elif provider == 'fairfax_water':
+            bill = FairfaxWaterBill(filepath=file_checker.filepath)
+        else:
+            raise ValueError(f'Provider name not valid: {provider}')
 
     logger.info('Parsing bill')
     bill_data = bill.parse_bill()
