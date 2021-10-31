@@ -30,6 +30,31 @@ $ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader 
 # where utilitybill.pdf exists in /path/to/inputs on Docker host
 ```
 
+## The Full Picture
+Each month, download the PDF bill from each vendor and drop in `~/Documents/Utilities`. 
+
+There is an Automator Folder Action workflow watching this folder (verify with 
+<kbd>⌘</kbd>+<kbd>Space</kbd> "Folder Actions Setup") set up with the following tasks:
+1. Get Selected Finder Items
+2. Run Shell Script
+   - Shell: `/bin/zsh`
+   - Pass input: `as arguments`
+```bash
+# Make docker available to shell
+export PATH=/usr/local/bin:$PATH
+
+# Set output file for docker logs
+outpath=~/Documents/Utilities/docker.log
+
+docker run \
+    --rm \
+    --mount type=bind,src=/Users/dtork/Documents/Utilities,dst=/common \
+    billreader $1 >> $outpath 2>&1
+```
+3. Display Notification (optional)
+   - Title: Utility bill parsed
+   - Message: File processed in watch folder.
+
 ## Resources
 * [pdfminer.six](https://pdfminersix.readthedocs.io)
 * [Yet Another Python Logging Setup](https://stackoverflow.com/questions/45287578/yet-another-python-logging-setup)
