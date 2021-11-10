@@ -50,7 +50,7 @@ class Bill(object):
         element = page[element_num].get_text()
         return element
 
-    def parse_bill(self):
+    def parse_bill(self) -> dict:
         raise NotImplementedError('Should be defined in child class.')
 
 
