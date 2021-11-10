@@ -6,6 +6,7 @@ from billreader import Bill
 
 class FairfaxWaterBill(Bill):
     provider = 'Fairfax Water'
+    utility_type = 'water'
     date_input_format = '%m/%d/%y'
     date_output_format = '%Y-%m-%d'
 
@@ -17,6 +18,7 @@ class FairfaxWaterBill(Bill):
         """Collect all relevant bill elements in a dictionary."""
         bill_data = {
             'provider': self.provider,
+            'type': self.utility_type,
             'bill_date': self._get_bill_date(),
             'amount': self._get_bill_amount(),
             'due_date': self._get_bill_due_date()
