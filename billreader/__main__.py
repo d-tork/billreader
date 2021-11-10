@@ -1,8 +1,9 @@
 import json
 import argparse
+import os
 from os import path
 
-from billreader import FileChecker, log, BIND_MOUNT_DIR
+from billreader import FileChecker, log, BIND_MOUNT_DIR, Bill
 from billreader.power import DominionEnergyBill
 from billreader.water import FairfaxWaterBill
 
@@ -31,6 +32,8 @@ def main():
     bill_data = bill.parse_bill()
     logger.info('Bill parsing complete.')
 
+    rename_bill_file(bill=bill, bill_date=bill_data.get('bill_date'))
+
     write_output(bill_data=bill_data)
     return
 
@@ -41,6 +44,14 @@ def parse_cli_args():
                         help='Filepath of pdf')
     args = parser.parse_args()
     return args
+
+
+def rename_bill_file(bill: Bill, bill_date: str):
+    """Standardizes the filename."""
+    old_path = bill.filepath
+    new_path = f'{bill.utility_type}_{bill_date}'
+    os.rename(old_path, new_path)
+    # TODO: ensure this doesn't trigger another action
 
 
 def write_output(bill_data: dict):
