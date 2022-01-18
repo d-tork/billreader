@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='billreader',
-    version='1.0.0',
+    version='1.1.0',
     packages=find_packages(include=['billreader']),
     install_requires=[
         'pdfminer.six>=20211012',
