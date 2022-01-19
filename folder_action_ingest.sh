@@ -21,11 +21,11 @@
 # 
 ################################################################################
 # Set output file for output log
-logfile=~/tmp/automator.log
+logfile=~/tmp/billreader_automator.log
 touch $logfile
 
 # Define destinations
-backup_dest=~/tmp/sent/
+backup_dest=~/OneDrive/Documents/Utilities_backup/
 bucket_dest='minio/billreader/raw'
 
 {

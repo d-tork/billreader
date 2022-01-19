@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>509</string>
+	<string>444.7</string>
 	<key>AMApplicationVersion</key>
-	<string>2.10</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -46,7 +46,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Get Selected Finder Items 2.action</string>
 				<key>ActionName</key>
-				<string>Obtenir les éléments sélectionnés du Finder</string>
+				<string>Get Selected Finder Items</string>
 				<key>ActionParameters</key>
 				<dict/>
 				<key>BundleIdentifier</key>
@@ -77,8 +77,6 @@
 				</array>
 				<key>arguments</key>
 				<dict/>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
@@ -132,7 +130,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Exécuter un script Shell</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -166,8 +164,8 @@
 				<array>
 					<string>Shell</string>
 					<string>Script</string>
-					<string>Commande</string>
-					<string>Exécuter</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -196,9 +194,9 @@
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -209,9 +207,9 @@
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -247,19 +245,19 @@
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<integer>1</integer>
+				<true/>
 				<key>location</key>
-				<string>484.000000:317.000000</string>
+				<string>331.500000:319.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<integer>1</integer>
+			<true/>
 		</dict>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>25364812-5698-4391-A89A-02DA7CB86E38</key>
+		<key>8945BC5E-CB47-40CC-BAA5-B3E43A38DEE8</key>
 		<dict>
 			<key>from</key>
 			<string>BE4650ED-E930-4566-8E3C-E1FD1608B8DC - BE4650ED-E930-4566-8E3C-E1FD1608B8DC</string>
@@ -270,7 +268,7 @@
 	<key>workflowMetaData</key>
 	<dict>
 		<key>folderActionFolderPath</key>
-		<string>~/tmp/bill_dropbox</string>
+		<string>~/OneDrive/Documents/Utilities</string>
 		<key>workflowTypeIdentifier</key>
 		<string>com.apple.Automator.folderAction</string>
 	</dict>
