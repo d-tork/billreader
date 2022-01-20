@@ -134,7 +134,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>~/Documents/billreader/folder_action_ingest.sh $1</string>
+					<string>~/Documents/Python/bill-pdfs/folder_action_ingest.sh $1</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -257,7 +257,7 @@
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>8945BC5E-CB47-40CC-BAA5-B3E43A38DEE8</key>
+		<key>40D1F8C5-3124-4E62-91E1-AA60EA9CC4BD</key>
 		<dict>
 			<key>from</key>
 			<string>BE4650ED-E930-4566-8E3C-E1FD1608B8DC - BE4650ED-E930-4566-8E3C-E1FD1608B8DC</string>

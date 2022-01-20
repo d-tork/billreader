@@ -29,7 +29,7 @@ backup_dest=~/OneDrive/Documents/Utilities_backup/
 bucket_dest='minio/billreader/raw'
 
 {
-	newfile="$(python3 ~/Documents/billreader/ingest_rename.py "$1")"
+	newfile="$(python3 ~/Documents/Python/bill-pdfs/ingest_rename.py "$1")"
 	if [ $? -eq 0 ]; then
 		echo "$(stat $newfile)"
 		mc cp "$newfile" "$bucket_dest"
