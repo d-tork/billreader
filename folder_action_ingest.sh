@@ -24,18 +24,26 @@
 logfile=~/tmp/billreader_automator.log
 touch $logfile
 
-# Define destinations
-staging_dir=~/OneDrive/Documents/Utilities_backup/
-bucket_dest='minio/billreader/raw'
+# Define locations
+ingest_dir=~/OneDrive/Documents/Utilities_drop/
+staging_dir=~/OneDrive/Documents/Utilities_staging/
+bucket_dest='ibm/utilitybillreader/raw/'
 
-{
+ingest_rename () {
 	newfile="$(python3 ~/Documents/Python/bill-pdfs/ingest_rename.py "$1")"
 	if [ $? -eq 0 ]; then
 		mv "$newfile" "$staging_dir"
 	fi
+}
 
-} >> >(tee ${logfile}) 2>&1
+cd $ingest_dir || exit  # if cd fails, exit
+for raw_file in *.pdf; do
+  if [ -f "$raw_file" ]; then
+    ingest_rename "$raw_file"
+  fi
+done
 
-#if [ $? -eq 0 ]; then
-#	mc cp "$staging_dir/*" "$bucket_dest"
-#fi
+mc cp "$staging_dir/*" "$bucket_dest"
+if [ $? -eq 0 ]; then
+  rm "$staging_dir/*"
+fi
