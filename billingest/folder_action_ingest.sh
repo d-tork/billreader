@@ -20,17 +20,17 @@
 # move the original to object storage.
 # 
 ################################################################################
-# Set output file for output log
-logfile=~/tmp/billreader_automator.log
-touch $logfile
+# Load the environment
+export PATH=/usr/local/bin:$PATH
 
 # Define locations
-ingest_dir=~/OneDrive/Documents/Utilities_drop/
-staging_dir=~/OneDrive/Documents/Utilities_staging/
+ingest_dir=~/OneDrive/Documents/Utilities_drop
+staging_dir=~/OneDrive/Documents/Utilities_staging
 bucket_dest='ibm/utilitybillreader/raw/'
 
 ingest_rename () {
-	newfile="$(python3 ~/Documents/Python/bill-pdfs/ingest_rename.py "$1")"
+	newfile="$(python3 ~/Documents/Python/bill-pdfs/billingest/ingest_rename.py "$1")"
+	echo "$1 --renamed--> $newfile"
 	if [ $? -eq 0 ]; then
 		mv "$newfile" "$staging_dir"
 	fi
@@ -43,7 +43,4 @@ for raw_file in *.pdf; do
   fi
 done
 
-mc cp "$staging_dir/*" "$bucket_dest"
-if [ $? -eq 0 ]; then
-  rm "$staging_dir/*"
-fi
+mc find $staging_dir --name "*.pdf" --exec "mc mv {} $bucket_dest"

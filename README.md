@@ -2,7 +2,7 @@
 
 Parse the PDF versions of utility bills for automated input to expenses spreadsheet.
 
-## Usage
+## Simple Usage (billreader)
 ```bash
 $ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader utilitybill.pdf
 
@@ -12,29 +12,39 @@ $ docker run --rm billreader -h
 where `utilitybill.pdf` exists in `/path/to/inputs` on Docker host
 
 ### The Full Picture
-Each month, download the PDF bill from each vendor and drop in `~/Documents/Utilities`. 
+Each month, download the PDF bill from each vendor and drop in `$ONEDRIVE_PATH/Documents/Utilities_drop`.
+(No matter from where you drop the file, it will sync to The Spine which executes the next step.)
 
-There is an Automator Folder Action workflow watching this folder (verify with 
-<kbd>⌘</kbd>+<kbd>Space</kbd> "Folder Actions Setup") set up with the following tasks:
-1. Get Selected Finder Items
-2. Run Shell Script
-   - Shell: `/bin/zsh`
-   - Pass input: `as arguments`
+There is an Automator Folder Action workflow on The Spine watching this folder (verify with 
+<kbd>⌘</kbd>+<kbd>Space</kbd> "Folder Actions Setup") set up to run a shell script:
 ```bash
-# Make docker available to shell
-export PATH=/usr/local/bin:$PATH
+~/Documents/Python/bill-pdfs/billingest/folder_action_ingest.sh
+```
+![Automator folder action to run script](billingest/billreader_ingest.workflow/Contents/QuickLook/Thumbnail.png)
 
+That script executes a plain Python script which renames the file with three elements:
+1. a basename, defaulting to "billdownload"
+2. the modification date of the file (i.e. when it was downloaded from the provider)
+3. the hash of the file contents
+
+Finally, the script uploads the renamed files to cloud object storage (one of either AWS, GCP, IBM, 
+or a local instance of MinIO) for further processing. The module `billreader`, in a container,
+should act on these cloud files.
+
+### Calling the `billreader` container
+With the inclusion of the ingest step and cloud storage, the bill parsing itself can take place
+on a Linux server with fewer issues, compared to The Spine which required a manual starting of the 
+Docker engine each time.
+```bash
 # Set output file for docker logs
 outpath=~/Documents/Utilities/docker.log
+raw_cloud_bucket_path='FILL IN HERE'
 
 docker run \
     --rm \
-    --mount type=bind,src=/Users/dtork/Documents/Utilities,dst=/common \
+    --mount type=bind,src=$raw_cloud_bucket_path,dst=/common \
     billreader $1 >> $outpath 2>&1
 ```
-3. Display Notification (optional)
-   - Title: Utility bill parsed
-   - Message: File processed in watch folder.
 
 ## Development instructions
 ### Rebuilding Docker image
