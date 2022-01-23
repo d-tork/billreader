@@ -6,7 +6,7 @@ import os
 import sys
 import argparse
 from datetime import datetime
-
+import hashlib
 
 def main():
     args = parse_cli_args()
@@ -19,7 +19,7 @@ def main():
 def parse_cli_args():
     parser = argparse.ArgumentParser(description='Rename files for ingest to object storage.')
     parser.add_argument('filepath', type=str, nargs=1, help='Filepath of pdf')
-    parser.add_argument('--basename', type=str, default='utility_bill_download',
+    parser.add_argument('--basename', type=str, default='billdownload',
         help='Root name of destination file.')
     args = parser.parse_args()
     return args
@@ -30,10 +30,16 @@ class FileRenamer(object):
     def __init__(self, src_path: str, dest_root: str):
         self.src_path = src_path
         self.dest_root = dest_root
+        self.hash = self._create_file_hash()
         self.dest_path = self._create_dest_path()
 
     def rename_file(self):
         os.rename(self.src_path, self.dest_path)
+
+    def _create_file_hash(self) -> str:
+        with open(self.src_path, 'rb') as f:
+            data = f.read()
+            self.hash = hashlib.sha1(data).hexdigest()
 
     def _create_dest_path(self) -> str:
         base_path = os.path.dirname(self.src_path)
@@ -45,9 +51,9 @@ class FileRenamer(object):
         modify_time_ts = os.path.getmtime(self.src_path)
         modify_time_utc = datetime.utcfromtimestamp(modify_time_ts)
 
-        datetime_format = '%Y_%m_%d-%H%M%S%Z'  # 2022_01_18-223010UTC
+        datetime_format = '%Y_%m_%d'  # 2022_01_18
         ts_formatted = modify_time_utc.strftime(datetime_format)
-        dest_name = f"{self.dest_root}-{ts_formatted}.pdf"
+        dest_name = f"{self.dest_root}-{ts_formatted}-{self.hash}.pdf"
         return dest_name
 
 
