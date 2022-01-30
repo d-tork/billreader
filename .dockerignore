@@ -11,3 +11,8 @@ watch_folder/
 runner.sh
 samples/
 output/
+*.egg-info/
+billingest/
+**/__pycache__/
+copy_slowly.sh
+image_builder.sh
