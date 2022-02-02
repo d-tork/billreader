@@ -1,13 +1,26 @@
+# IDEs and VCS
 .DS_Store
 .git/
 .gitignore
 .idea/
 .vscode/
-*.egg-info/
-build/
-output.json
+
+# python env
 venv/
-watch_folder/
+*.egg-info/
+**/__pycache__/
+build/
+
+# development files
+copy_slowly.sh
+image_builder.sh
 runner.sh
 samples/
+watch_folder/
+
+# outputs
+output.json
 output/
+
+# parts of pipeline not in this docker image
+billingest/

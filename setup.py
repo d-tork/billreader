@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='billreader',
-    version='1.2.0',
-    packages=find_packages(include=['billreader', 'billingest']),
+    version='1.2.1',
+    packages=find_packages(include=['billreader']),
     install_requires=[
         'pdfminer.six>=20211012',
         'pyyaml'
