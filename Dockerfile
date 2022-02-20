@@ -6,6 +6,8 @@ RUN python -m pip install -U --upgrade \
 
 WORKDIR /bill-pdfs
 ENV PROJ_ROOT="/bill-pdfs"
+ENV DATA_ROOT="/data"
+VOLUME /data
 
 # Create non-root user
 RUN useradd -m -r user && \
@@ -18,7 +20,6 @@ RUN python -m pip install -r requirements.txt
 COPY . .
 RUN python -m pip install .
 
-RUN mkdir /common
 USER user
 
 ENTRYPOINT ["billreader"]

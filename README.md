@@ -4,7 +4,7 @@ Parse the PDF versions of utility bills for automated input to expenses spreadsh
 
 ## Simple Usage (billreader)
 ```bash
-$ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader utilitybill.pdf
+$ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/data billreader utilitybill.pdf
 
 $ docker run --rm billreader -h
 # displays help
@@ -42,7 +42,7 @@ raw_cloud_bucket_path='FILL IN HERE'
 
 docker run \
     --rm \
-    --mount type=bind,src=$raw_cloud_bucket_path,dst=/common \
+    --mount type=bind,src=$raw_cloud_bucket_path,dst=/data \
     billreader $1 >> $outpath 2>&1
 ```
 

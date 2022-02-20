@@ -5,7 +5,7 @@ from os import path
 
 from billreader import (
     FileChecker, Bill,
-    PROJ_ROOT, BIND_MOUNT_DIR,
+    PROJ_ROOT, DATA_ROOT,
     log
 )
 from billreader.power import DominionEnergyBill
@@ -19,7 +19,7 @@ logger = log.log_setup(config_yaml=config_yaml, logger_name='main')
 def main():
     args = parse_cli_args()
     print(f'Filepath passed: {args.filepath}')
-    file_checker = FileChecker(filepath=args.filepath, bind_path=BIND_MOUNT_DIR)
+    file_checker = FileChecker(filepath=args.filepath, bind_path=DATA_ROOT)
     try:
         provider = file_checker.determine_utility_provider()
     except ValueError:
@@ -59,7 +59,7 @@ def rename_bill_file(bill: Bill, bill_date: str):
 
 
 def write_output(bill_data: dict):
-    output_path = path.join(BIND_MOUNT_DIR, 'parse_output.json')
+    output_path = path.join(DATA_ROOT, 'parse_output.json')
     logger.info(f'Writing output to {output_path}.')
     add_to_output(output_path=output_path, data=bill_data)
     logger.info('Output file written.')
