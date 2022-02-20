@@ -14,9 +14,6 @@ RUN useradd -m -r user && \
 COPY requirements.txt ./
 RUN python -m pip install -r requirements.txt
 
-ARG GIT_HASH
-ENV GIT_HASH=${GIT_HASH:-dev}
-
 COPY . .
 RUN python -m pip install .
 
