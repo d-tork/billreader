@@ -53,7 +53,8 @@ def parse_cli_args():
 def rename_bill_file(bill: Bill, bill_date: str):
     """Standardizes the filename."""
     old_path = bill.filepath
-    new_path = f'{bill.utility_type}_{bill_date}'
+    new_filename = f'{bill.utility_type}_{bill_date}.pdf'
+    new_path = path.join(DATA_ROOT, new_filename)
     logger.info(f'Moving {old_path} to {new_path}')
     os.rename(old_path, new_path)
     # TODO: ensure this doesn't trigger another action
