@@ -4,7 +4,9 @@ Parse the PDF versions of utility bills for automated input to expenses spreadsh
 
 ## Simple Usage (billreader)
 ```bash
-$ docker run --rm --mount type=bind,src=/path/to/inputs/,dst=/common billreader utilitybill.pdf
+$ docker run --rm \
+  --mount type=bind,src=/path/to/inputs/,dst=/data \
+  billreader utilitybill.pdf
 
 $ docker run --rm billreader -h
 # displays help
@@ -42,15 +44,20 @@ raw_cloud_bucket_path='FILL IN HERE'
 
 docker run \
     --rm \
-    --mount type=bind,src=$raw_cloud_bucket_path,dst=/common \
+    --mount type=bind,src=$raw_cloud_bucket_path,dst=/data \
     billreader $1 >> $outpath 2>&1
 ```
 
 ## Development instructions
+### Running with local python 
+Recreate venv, and set environment variables
+```bash
+export PROJ_ROOT="$(pwd)"
+```
+
 ### Rebuilding Docker image
 ```bash
-$ export GIT_HASH=$(git rev-parse HEAD)
-$ docker build --build-arg GIT_HASH='${GIT_HASH::7}' -t billreader .
+$ docker build -t billreader .
 ```
 
 ### Starting a shell in the container
