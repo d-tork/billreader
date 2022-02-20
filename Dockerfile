@@ -20,6 +20,9 @@ RUN python -m pip install -r requirements.txt
 COPY . .
 RUN python -m pip install .
 
+ARG APP_VERSION
+ENV APP_VERSION=${APP_VERSION:-dev}
+
 USER user
 
 ENTRYPOINT ["billreader"]
