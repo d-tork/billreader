@@ -7,8 +7,8 @@
 # Docker hub if flag is passed.
 #
 ################################################################################
-#DOCKER_REPO=halpoins/
-DOCKER_REPO=  # leave blank for local testing
+DOCKER_REPO=halpoins/
+#DOCKER_REPO=  # leave blank for local testing
 IMAGE_NAME=billreader
 GIT_TAG=$(git describe --tags --abbrev=0)
 APP_VERSION=${GIT_TAG:-dev}
@@ -35,7 +35,7 @@ build_image () {
 push_image () {
 	for tag in "$APP_VERSION" "latest"
 	do
-		docker push "$DOCKER_REPO/$IMAGE_NAME:$tag"
+		docker push "$DOCKER_REPO$IMAGE_NAME:$tag"
 	done
 }
 
