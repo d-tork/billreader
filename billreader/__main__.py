@@ -18,7 +18,7 @@ logger = log.log_setup(config_yaml=config_yaml, logger_name='main')
 
 def main():
     args = parse_cli_args()
-    print(f'Filepath passed: {args.filepath}')
+    logger.info(f'Filepath passed: {args.filepath}')
     file_checker = FileChecker(filepath=args.filepath, bind_path=DATA_ROOT)
     try:
         provider = file_checker.determine_utility_provider()
@@ -54,6 +54,7 @@ def rename_bill_file(bill: Bill, bill_date: str):
     """Standardizes the filename."""
     old_path = bill.filepath
     new_path = f'{bill.utility_type}_{bill_date}'
+    logger.info(f'Moving {old_path} to {new_path}')
     os.rename(old_path, new_path)
     # TODO: ensure this doesn't trigger another action
 
