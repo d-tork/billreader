@@ -5,6 +5,7 @@ RUN python -m pip install -U --upgrade \
     wheel
 
 WORKDIR /bill-pdfs
+ENV PROJ_ROOT="/bill-pdfs"
 
 # Create non-root user
 RUN useradd -m -r user && \

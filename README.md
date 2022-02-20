@@ -47,6 +47,12 @@ docker run \
 ```
 
 ## Development instructions
+### Running with local python 
+Recreate venv, and set environment variables
+```bash
+export PROJ_ROOT="$(pwd)"
+```
+
 ### Rebuilding Docker image
 ```bash
 $ docker build -t billreader .

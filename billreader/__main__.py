@@ -3,12 +3,16 @@ import argparse
 import os
 from os import path
 
-from billreader import FileChecker, log, BIND_MOUNT_DIR, Bill
+from billreader import (
+    FileChecker, Bill,
+    PROJ_ROOT, BIND_MOUNT_DIR,
+    log
+)
 from billreader.power import DominionEnergyBill
 from billreader.water import FairfaxWaterBill
 
 
-config_yaml = path.join('/', 'bill-pdfs', 'logging.yml')
+config_yaml = path.join(PROJ_ROOT, 'logging.yml')
 logger = log.log_setup(config_yaml=config_yaml, logger_name='main')
 
 

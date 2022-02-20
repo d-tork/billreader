@@ -1,7 +1,8 @@
-from os import path
+import os
 from billreader.classes import Bill, FileChecker
 
-PROJ_PATH = path.dirname(path.dirname(path.abspath(__file__)))
-BIND_MOUNT_DIR = path.join('/', 'common')
+PROJ_ROOT = os.environ.get('PROJ_ROOT')
+BIND_MOUNT_DIR = os.path.join('/', 'common')
 
-__all__ = ['PROJ_PATH', 'Bill', 'FileChecker', 'BIND_MOUNT_DIR']
+__all__ = ['Bill', 'FileChecker',
+           'PROJ_ROOT', 'BIND_MOUNT_DIR']
