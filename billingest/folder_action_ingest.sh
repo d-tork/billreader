@@ -5,7 +5,7 @@
 	# shell: /bin/zsh
 	# input given as: arguments
 # 
-# ~/Documents/billreader/folder_action_ingest.sh $1
+# ~/Documents/Python/bill-pdfs/billingest/folder_action_ingest.sh
 # 
 # --------------------------------------------------
 # 
@@ -20,13 +20,16 @@
 # move the original to object storage.
 # 
 ################################################################################
+# Define cloud provider for uploads (one of s3 | gcs |ibm)
+CLOUD_SERVICE=gcs
+
 # Load the environment
 export PATH=/usr/local/bin:$PATH
 
 # Define locations
 ingest_dir=~/OneDrive/Documents/Utilities_drop
 staging_dir=~/OneDrive/Documents/Utilities_staging
-bucket_dest='ibm/utilitybillreader/raw/'
+bucket_dest="$CLOUD_SERVICE/utilitybillreader/raw/"
 
 ingest_rename () {
 	newfile="$(python3 ~/Documents/Python/bill-pdfs/billingest/ingest_rename.py "$1")"
@@ -37,10 +40,14 @@ ingest_rename () {
 }
 
 cd $ingest_dir || exit  # if cd fails, exit
+
+# Check each file exists first, then rename it and move to staging
 for raw_file in *.pdf; do
   if [ -f "$raw_file" ]; then
     ingest_rename "$raw_file"
   fi
 done
 
+# Move all staged PDFs to cloud bucket with minio client
+cp "$staging_dir/$newfile" "$HOME/Documents/Utilities/$newfile"
 mc find $staging_dir --name "*.pdf" --exec "mc mv {} $bucket_dest"
