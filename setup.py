@@ -1,9 +1,11 @@
+import os
 from setuptools import setup, find_packages
 
+app_version = os.environ.get('APP_VERSION')
 
 setup(
     name='billreader',
-    version='1.2.1',
+    version=app_version,
     packages=find_packages(include=['billreader']),
     install_requires=[
         'pdfminer.six>=20211012',

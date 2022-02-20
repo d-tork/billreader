@@ -61,8 +61,7 @@ class FileChecker(object):
         self.filepath = self._create_internal_docker_path(
             full_filepath=filepath, bind_path=bind_path)
 
-    @staticmethod
-    def _create_internal_docker_path(full_filepath: str, bind_path: str) -> str:
+    def _create_internal_docker_path(self, full_filepath: str, bind_path: str) -> str:
         """Create the filepath that refers to the bind mount within the container.
 
         macOS Automator will send a full macOS location (/Users/me/Documents/Utilities/...pdf)
@@ -75,6 +74,7 @@ class FileChecker(object):
         """
         filename = path.basename(full_filepath)
         new_path = path.join(bind_path, filename)
+        self.logger.info(f'Source file internally known as {new_path}')
         return new_path
 
     def determine_utility_provider(self) -> str:
@@ -86,7 +86,6 @@ class FileChecker(object):
         self.logger.info('Creating bill instance to check for provider')
         bill = Bill(filepath=self.filepath)
         full_pdf_text = bill._get_text_from_page().lower()
-        self.logger.info('Full text extracted')
         if 'fairfaxwater' in full_pdf_text:
             self.logger.info('Fairfax Water keyword found')
             return 'fairfax_water'

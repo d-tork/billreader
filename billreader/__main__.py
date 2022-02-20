@@ -3,23 +3,27 @@ import argparse
 import os
 from os import path
 
-from billreader import FileChecker, log, BIND_MOUNT_DIR, Bill
+from billreader import (
+    FileChecker, Bill,
+    PROJ_ROOT, DATA_ROOT,
+    log
+)
 from billreader.power import DominionEnergyBill
 from billreader.water import FairfaxWaterBill
 
 
-config_yaml = path.join('/', 'bill-pdfs', 'logging.yml')
+config_yaml = path.join(PROJ_ROOT, 'logging.yml')
 logger = log.log_setup(config_yaml=config_yaml, logger_name='main')
 
 
 def main():
     args = parse_cli_args()
-    print(f'Filepath passed: {args.filepath}')
-    file_checker = FileChecker(filepath=args.filepath, bind_path=BIND_MOUNT_DIR)
+    logger.info(f'Filepath passed: {args.filepath}')
+    file_checker = FileChecker(filepath=args.filepath, bind_path=DATA_ROOT)
     try:
         provider = file_checker.determine_utility_provider()
     except ValueError:
-        logger.exception()
+        raise
     else:
         if provider == 'dominion_energy':
             bill = DominionEnergyBill(filepath=file_checker.filepath)
@@ -49,13 +53,15 @@ def parse_cli_args():
 def rename_bill_file(bill: Bill, bill_date: str):
     """Standardizes the filename."""
     old_path = bill.filepath
-    new_path = f'{bill.utility_type}_{bill_date}'
+    new_filename = f'{bill.utility_type}_{bill_date}.pdf'
+    new_path = path.join(DATA_ROOT, new_filename)
+    logger.info(f'Moving {old_path} to {new_path}')
     os.rename(old_path, new_path)
     # TODO: ensure this doesn't trigger another action
 
 
 def write_output(bill_data: dict):
-    output_path = path.join(BIND_MOUNT_DIR, 'parse_output.json')
+    output_path = path.join(DATA_ROOT, 'parse_output.json')
     logger.info(f'Writing output to {output_path}.')
     add_to_output(output_path=output_path, data=bill_data)
     logger.info('Output file written.')
@@ -66,3 +72,7 @@ def add_to_output(output_path: str, data: dict):
     with open(output_path, 'a') as f:
         f.write('\n')
         json.dump(data, f)
+
+
+if __name__ == '__main__':
+    main()

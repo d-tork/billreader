@@ -5,6 +5,9 @@ RUN python -m pip install -U --upgrade \
     wheel
 
 WORKDIR /bill-pdfs
+ENV PROJ_ROOT="/bill-pdfs"
+ENV DATA_ROOT="/data"
+VOLUME /data
 
 # Create non-root user
 RUN useradd -m -r user && \
@@ -14,13 +17,12 @@ RUN useradd -m -r user && \
 COPY requirements.txt ./
 RUN python -m pip install -r requirements.txt
 
-ARG GIT_HASH
-ENV GIT_HASH=${GIT_HASH:-dev}
-
 COPY . .
 RUN python -m pip install .
 
-RUN mkdir /common
+ARG APP_VERSION
+ENV APP_VERSION=${APP_VERSION:-dev}
+
 USER user
 
 ENTRYPOINT ["billreader"]
