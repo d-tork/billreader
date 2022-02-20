@@ -70,3 +70,7 @@ def add_to_output(output_path: str, data: dict):
     with open(output_path, 'a') as f:
         f.write('\n')
         json.dump(data, f)
+
+
+if __name__ == '__main__':
+    main()
