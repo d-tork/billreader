@@ -15,6 +15,7 @@ where `utilitybill.pdf` exists in `/path/to/inputs` on Docker host
 
 ## The Full Picture
 ![Bill reader flow diagram](docs/utilitybill_flow.jpg)
+
 Each month, download the PDF bill from each vendor and drop in `$ONEDRIVE_PATH/Documents/Utilities_drop`.
 (No matter from where you drop the file, it will sync to The Spine which executes the next step.)
 
