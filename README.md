@@ -13,18 +13,23 @@ $ docker run --rm billreader -h
 ```
 where `utilitybill.pdf` exists in `/path/to/inputs` on Docker host
 
-### The Full Picture
+## The Full Picture
+![Bill reader flow diagram](docs/utilitybill_flow.jpg)
 Each month, download the PDF bill from each vendor and drop in `$ONEDRIVE_PATH/Documents/Utilities_drop`.
 (No matter from where you drop the file, it will sync to The Spine which executes the next step.)
 
+### `billingest` upon file drop
 There is an Automator Folder Action workflow on The Spine watching this folder (verify with 
 <kbd>⌘</kbd>+<kbd>Space</kbd> "Folder Actions Setup") set up to run a shell script:
 ```bash
-~/Documents/Python/bill-pdfs/billingest/folder_action_ingest.sh
+<this repo>/billingest/folder_action_ingest.sh
 ```
 ![Automator folder action to run script](billingest/billreader_ingest.workflow/Contents/QuickLook/Thumbnail.png)
 
 That script executes a plain Python script which renames the file with three elements:
+```
+billdownload-2022_02_20-547906ffa725ae3724f01e5e01523175c2a2f090.pdf
+```
 1. a basename, defaulting to "billdownload"
 2. the modification date of the file (i.e. when it was downloaded from the provider)
 3. the hash of the file contents
@@ -37,6 +42,10 @@ should act on these cloud files.
 With the inclusion of the ingest step and cloud storage, the bill parsing itself can take place
 on a Linux server with fewer issues, compared to The Spine which required a manual starting of the 
 Docker engine each time.
+
+However, it remains to be seen how best to access a cloud object storage bucket from the Docker 
+container, and what advantages there are in each cloud provider's ecosystem to connect storage, 
+container orchestration, compute, and database resources together.
 ```bash
 # Set output file for docker logs
 outpath=~/Documents/Utilities/docker.log
@@ -56,8 +65,10 @@ export PROJ_ROOT="$(pwd)"
 ```
 
 ### Rebuilding Docker image
+Use the helper script in order to tag versions appropriately. Ensure that you've added a new git
+tag before running.
 ```bash
-$ docker build -t billreader .
+./build.sh
 ```
 
 ### Starting a shell in the container

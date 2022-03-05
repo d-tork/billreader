@@ -20,6 +20,7 @@ Usage: $0 [OPTIONS]
 
 Options:
 	-p, --push: 	Push the resulting image tags to Docker Hub
+	-h, --help: 	Display this help
 
 USAGE
 	exit 1
