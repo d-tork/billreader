@@ -1,4 +1,4 @@
-FROM python:3.7.11-slim-buster
+FROM python:3.9.11-slim-bullseye
 RUN python -m pip install -U --upgrade \
     pip \
     setuptools \
