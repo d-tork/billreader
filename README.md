@@ -6,9 +6,9 @@ Parse the PDF versions of utility bills for automated input to expenses spreadsh
 ```bash
 $ docker run --rm \
   --mount type=bind,src=/path/to/inputs/,dst=/data \
-  billreader utilitybill.pdf
+  halpoins/billreader utilitybill.pdf
 
-$ docker run --rm billreader -h
+$ docker run --rm halpoins/billreader -h
 # displays help
 ```
 where `utilitybill.pdf` exists in `/path/to/inputs` on Docker host
@@ -55,7 +55,7 @@ raw_cloud_bucket_path='FILL IN HERE'
 docker run \
     --rm \
     --mount type=bind,src=$raw_cloud_bucket_path,dst=/data \
-    billreader $1 >> $outpath 2>&1
+    halpoins/billreader $1 >> $outpath 2>&1
 ```
 
 ## Development instructions
@@ -75,7 +75,7 @@ tag before running.
 ### Starting a shell in the container
 Since an entrypoint is defined, you must redefine it:
 ```bash
-$ docker run --rm -it --entrypoint=/bin/bash billreader
+$ docker run --rm -it --entrypoint=/bin/bash halpoins/billreader
 ```
 
 ## Resources
