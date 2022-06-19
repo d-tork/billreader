@@ -2,6 +2,20 @@
 
 Parse the PDF versions of utility bills for automated input to expenses spreadsheet.
 
+### billreader
+* takes a (reference to a) single unknown pdf, writes out to a database located at an internal 
+port
+* is able to connect to a cloud bucket in order to read in the file
+	- requiring secrets, an IAM account, service credentials, and bucket name
+* the database table it writes to is bronze, references the raw filename
+
+### billingest
+* not a container (at least not entirely)
+* renames a source PDF with hash, uploads to cloud bucket
+* writes a row to the raw database table
+* also needs secrets to connect to the database
+
+
 ## Simple Usage (billreader)
 ```bash
 $ docker run --rm \
