@@ -42,7 +42,7 @@ bucket_dest="$CLOUD_SERVICE/utilitybillreader/raw/"
 cd $ingest_dir || exit  # if cd fails, exit
 
 ingest_rename () {
-	newfile="$(python3 ~/Documents/Python/bill-pdfs/billingest/ingest_rename.py "$1")"
+	newfile="$(python3 ~/Project_repos/bill-pdfs/billingest/ingest_rename.py "$1")"
 	echo "$1 --renamed--> $newfile"
 	if [ $? -eq 0 ]; then
 		mv "$newfile" "$staging_dir"

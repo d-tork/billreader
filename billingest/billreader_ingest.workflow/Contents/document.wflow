@@ -59,7 +59,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>~/Documents/Python/bill-pdfs/billingest/folder_action_ingest.sh</string>
+					<string>~/Project_repos/bill-pdfs/billingest/folder_action_ingest.sh</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
