@@ -39,7 +39,8 @@ class DominionEnergyBill(Bill):
     def _clean_bill_date(self, raw_bill_date: str) -> datetime:
         """Convert raw bill date to a datetime object."""
         stripped = raw_bill_date.strip()
-        parsed = datetime.strptime(stripped, self.date_input_format).date()
+        segregated = stripped.split('\n')[0]
+        parsed = datetime.strptime(segregated, self.date_input_format).date()
         return parsed
 
     def _get_bill_amount(self) -> str:
@@ -67,8 +68,8 @@ class DominionEnergyBill(Bill):
     def _get_bill_due_date(self) -> str:
         """Get date bill is due."""
         self.logger.info('Getting bill due date')
-        bill_duedate_element_num = 13
-        due_date_raw = self.get_specific_element_from_page(element_num=13)
+        bill_duedate_element_num = 9
+        due_date_raw = self.get_specific_element_from_page(element_num=bill_duedate_element_num)
         try:
             due_date_parsed = self._parse_date_from_field(due_date_raw)
         except ValueError:
@@ -81,7 +82,7 @@ class DominionEnergyBill(Bill):
     @staticmethod
     def _parse_date_from_field(s: str) -> str:
         """Get date string out of larger string."""
-        bill_duedate_pattern = r'\w{3} \d{2}, \d{4}'
+        bill_duedate_pattern = r'\w{3,} \d{1,2}, \d{4}'
         match = re.search(bill_duedate_pattern, s)
         if match:
             return match.group(0)
