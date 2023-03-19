@@ -67,8 +67,8 @@ class DominionEnergyBill(Bill):
     def _get_bill_due_date(self) -> str:
         """Get date bill is due."""
         self.logger.info('Getting bill due date')
-        bill_duedate_element_num = 13
-        due_date_raw = self.get_specific_element_from_page(element_num=13)
+        bill_duedate_element_num = 12
+        due_date_raw = self.get_specific_element_from_page(element_num=bill_duedate_element_num)
         try:
             due_date_parsed = self._parse_date_from_field(due_date_raw)
         except ValueError:
