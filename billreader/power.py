@@ -68,12 +68,18 @@ class DominionEnergyBill(Bill):
     def _get_bill_due_date(self) -> str:
         """Get date bill is due."""
         self.logger.info('Getting bill due date')
-        bill_duedate_element_num = 9
+        bill_duedate_element_nums = [13, 9]
         due_date_raw = self.get_specific_element_from_page(element_num=bill_duedate_element_num)
-        try:
-            due_date_parsed = self._parse_date_from_field(due_date_raw)
-        except ValueError:
-            raise ValueError(f'Date pattern not found in field {bill_duedate_element_num}')
+        # Loop through possible locations, depending on version of bill layout
+        for bill_duedate_element_num in bill_duedate_element_nums:
+            try:
+                due_date_parsed = self._parse_date_from_field(due_date_raw)
+                break
+            except ValueError:
+                self.logger.warning(f'Date pattern not found in field {bill_duedate_element_num}'
+                if bill_duedate_element_num == bill_duedate_element_nums[-1]:
+                    # Only re-raise exception if it's the last attempt
+                    raise ValueError('No parseable date field found in given options')
         due_date = self._clean_bill_date(raw_bill_date=due_date_parsed)
         formatted_due_date = due_date.strftime(self.date_output_format)
         self.logger.info('Due date retrieved')
