@@ -23,7 +23,7 @@ class Bill(object):
         self.logger.debug(f'Getting element {element_num} from page')
         page = self._get_all_elements_from_page(**kwargs)
         bill_element = self._get_raw_bill_element(page=page, element_num=element_num)
-        self.logger.debug('Element retrieved')
+        self.logger.debug(f'Element retrieved: {bill_element}')
         return bill_element
 
     def _get_all_elements_from_page(self, page_num: int=1) -> list:
@@ -86,6 +86,7 @@ class FileChecker(object):
         self.logger.info('Creating bill instance to check for provider')
         bill = Bill(filepath=self.filepath)
         full_pdf_text = bill._get_text_from_page().lower()
+        store_fulltext_locally(full_pdf_text)
         if 'fairfaxwater' in full_pdf_text:
             self.logger.info('Fairfax Water keyword found')
             return 'fairfax_water'
@@ -94,3 +95,11 @@ class FileChecker(object):
             return 'dominion_energy'
         else:
             raise ValueError('No relevant keywords detected in PDF')
+
+
+def store_fulltext_locally(fulltext: str):
+    """Store the full text of PDF to a file for reference at any time in container."""
+    dump_location = '/tmp/full_pdf_text'
+    with open(dump_location, 'w') as f:
+        f.write(fulltext)
+    return

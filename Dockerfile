@@ -7,6 +7,7 @@ RUN python -m pip install -U --upgrade \
 WORKDIR /bill-pdfs
 ENV PROJ_ROOT="/bill-pdfs"
 ENV DATA_ROOT="/data"
+ENV CONFIG_FILE="/run/config/config.yaml"
 VOLUME /data
 
 # This step not likely to change often

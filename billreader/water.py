@@ -33,6 +33,7 @@ class FairfaxWaterBill(Bill):
         bill_date = self._clean_bill_date(raw_bill_date=raw_bill_date)
         formatted_bill_date = bill_date.strftime(self.date_output_format)
         self.logger.info('Bill date retrieved and formatted')
+        self.logger.info(formatted_bill_date)
         return formatted_bill_date
 
     def _clean_bill_date(self, raw_bill_date: str) -> datetime:
@@ -50,6 +51,7 @@ class FairfaxWaterBill(Bill):
         bill_amt_usd = bill_amt_cents / 100
         bill_amt_formatted = f'{bill_amt_usd:.2f}'
         self.logger.info('Bill amount retrieved')
+        self.logger.info(bill_amt_formatted)
         return bill_amt_formatted
 
     def _extract_pattern_from_full_text(self, patt: str) -> str:
@@ -82,6 +84,7 @@ class FairfaxWaterBill(Bill):
         due_date = self._clean_bill_date(raw_bill_date=raw_due_date)
         formatted_due_date = due_date.strftime(self.date_output_format)
         self.logger.info('Due date retrieved')
+        self.logger.info(formatted_due_date)
         return formatted_due_date
 
     @staticmethod
