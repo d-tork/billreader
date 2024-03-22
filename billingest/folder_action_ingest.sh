@@ -43,9 +43,8 @@ cd $ingest_dir || exit  # if cd fails, exit
 
 ingest_rename () {
 	newfile="$(python3 ~/Repos/bill-pdfs/billingest/ingest_rename.py "$1")"
-	echo "$1 --renamed--> $newfile"
 	if [ $? -eq 0 ]; then
-		mv "$newfile" "$staging_dir"
+		mv -v "$newfile" "$staging_dir"
 	fi
 }
 
@@ -53,7 +52,7 @@ ingest_rename () {
 for raw_file in *.pdf; do
   if [ -f "$raw_file" ]; then
     ingest_rename "$raw_file"
-	cp "$staging_dir/$newfile" "$HOME/Documents/Utilities/$newfile"
+    cp "$staging_dir/$newfile" "$HOME/Documents/Utilities/$newfile"
   fi
 done
 
