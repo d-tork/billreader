@@ -1,4 +1,4 @@
-cffi==1.15.0
+cffi==1.16.0
 chardet==4.0.0
 cryptography==42.0.4
 pdfminer.six==20211012
