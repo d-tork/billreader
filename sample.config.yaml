@@ -1,0 +1,43 @@
+---
+# Billreader utility bill versions as providers change their PDFs
+# version dates are the start of that format (i.e. the maximum date matched in this list
+#   is the version to use when parsing a particular bill)
+
+dominion_energy:
+  potential_date_fields: [0]
+  versions:
+    2021-10-01:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 13
+      bill_amt_element: 18
+    2023-01-01:  # unknown how far back this is good for
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 9
+      bill_amt_element: 14
+    2023-05-01:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 5
+      bill_amt_element: 10
+    2023-06-09:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 9
+      bill_amt_element: 14
+    2023-07-11:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 10
+      bill_amt_element: 15
+    2023-08-01:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 6
+      bill_amt_element: 10
+    2023-09-01:
+      bill_page: 1
+      bill_date_element: 0
+      bill_duedate_element: 5
+      bill_amt_element: 9
