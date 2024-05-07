@@ -6,7 +6,7 @@ app_version = os.environ.get('APP_VERSION')
 setup(
     name='billreader',
     version=app_version,
-    packages=find_packages(include=['billreader']),
+    packages=find_packages(include=['billreader', 'billingest']),
     install_requires=[
         'pdfminer.six>=20211012',
         'pyyaml'
