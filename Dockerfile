@@ -1,4 +1,4 @@
-FROM python:3.11.8-slim-bullseye
+FROM python:3.13.0a6-slim-bullseye
 RUN python -m pip install -U --upgrade \
     pip \
     setuptools \
